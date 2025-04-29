@@ -38,7 +38,10 @@ theme:
         backgroundColor: *mantle
         foregroundColor: *text
         elevation: 0
-
+    dialogTheme:
+        shape:
+            type: rounded
+            borderRadius: 10
     filledButtonTheme:
         style:
             shape:

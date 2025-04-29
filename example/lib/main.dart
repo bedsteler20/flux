@@ -56,25 +56,80 @@ class MyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
-        children: <Widget>[
-          for (var i = 0; i < 100; i++)
-            Card(
-              child: ListTile(
-                title: Text('Item $i'),
-                trailing: FilledButton(
-                  onPressed: () {},
-                  child: const Text('Button'),
-                ),
+      body: ListView.builder(
+        itemCount: 100,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              title: Text('Item $index'),
+              trailing: FilledButton(
+                onPressed: () {},
+                child: const Text('Button'),
               ),
             ),
-        ],
+          );
+        },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: const MyWidget(),
+    );
+  }
+}
+
+class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 1), () {
+      // Show the dialog after a delay
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MyPallet();
+        },
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox();
+  }
+}
+
+class MyPallet extends StatefulWidget {
+  const MyPallet({super.key});
+
+  @override
+  State<MyPallet> createState() => _MyPalletState();
+}
+
+class _MyPalletState extends State<MyPallet> {
+  final textController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return FluxPallet(
+      title: 'Search',
+      controller: textController,
+      inputBoxLeading: const Icon(Icons.search_rounded),
+      placeholder: 'Search',
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return FluxPalletItem(
+          title: 'Item $index',
+          onTap: () {
+            // Handle item tap
+            print('Tapped on item $index');
+          },
+        );
+      },
     );
   }
 }
