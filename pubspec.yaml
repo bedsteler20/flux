@@ -1,0 +1,25 @@
+name: flux
+description: "A new Flutter package project."
+version: 0.0.1
+flutter: 
+    assets:
+        - assets/default_settings.yaml
+environment:
+  sdk: ^3.5.4
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_context_menu: ^0.2.0
+  handy_window: ^0.4.0
+  json_theme: ^8.0.0+2
+  meta: ^1.15.0
+  xdg_directories: ^1.1.0
+  yaml: ^3.1.2
+  yaru_window: ^0.2.1+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
