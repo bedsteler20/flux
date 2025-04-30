@@ -89,10 +89,26 @@ class _MyWidgetState extends State<MyWidget> {
 
     Future.delayed(const Duration(seconds: 1), () {
       // Show the dialog after a delay
-      showDialog(
+      // showDialog(
+      //   context: context,
+      //   builder: (context) {
+      //     return const MyPallet();
+      //   },
+      // );
+      FluxConfirmDialog.show(
         context: context,
-        builder: (context) {
-          return const MyPallet();
+        title: 'Confirm',
+        message: 'Are you sure you want to proceed?',
+        cancelText: 'Cancel',
+        confirmText: 'OK',
+        onResult: (bool result) {
+          if (result) {
+            // User confirmed
+            print('User confirmed');
+          } else {
+            // User canceled
+            print('User canceled');
+          }
         },
       );
     });
