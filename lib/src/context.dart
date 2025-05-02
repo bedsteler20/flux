@@ -10,7 +10,6 @@ class FluxBreakpoint {
   @internal
   const FluxBreakpoint(this.value);
 }
-
 late final FluxBreakpoint XS;
 late final FluxBreakpoint SM;
 late final FluxBreakpoint MD;

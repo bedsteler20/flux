@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:flux/flux.dart';
-import 'package:flux/src/config.dart';
 import 'package:meta/meta.dart';
 import 'package:yaru_window/yaru_window.dart';
 
@@ -10,6 +10,7 @@ class Flux {
   static late final FluxConfig config;
 
   static Future<void> ensureInitialized() async {
+    WidgetsFlutterBinding.ensureInitialized();
     config = await FluxConfig.load();
     yaruWindow = await YaruWindow.ensureInitialized();
     _setupBreakpoints();

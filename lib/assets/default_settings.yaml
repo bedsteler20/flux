@@ -8,12 +8,13 @@ variables:
     - &purple "#cba6f7"
     - &darkText "#1e1e2e"
     - &buttonRadius 8
+    - &crust "#11111b"
 
 properties:
     useClientSideDecorations: true
 
 breakpoints:
-    xs: 0
+    xs: 300
     sm: 576
     md: 768
     lg: 992
@@ -27,8 +28,10 @@ theme:
         brightness: dark
         primary: *pink
         onPrimary: *darkText
+
         error: *red
         onError: *darkText
+
         surface: *mantle
         onSurface: *text
         secondary: *purple
@@ -50,6 +53,22 @@ theme:
 
     outlinedButtonTheme:
         style:
+            shape:
+                type: rounded
+                borderRadius: *buttonRadius
+    menuTheme:
+        style:
+            backgroundColor: *crust
+            visualDensity: comfortable
+            shadowColor: *darkText
+            alignment: center
+
+    menuButtonTheme:
+        style:
+            minimumSize:
+                width: 150
+                height: 40
+            visualDensity: comfortable
             shape:
                 type: rounded
                 borderRadius: *buttonRadius

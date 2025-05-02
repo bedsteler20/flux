@@ -56,36 +56,61 @@ class FluxConfirmDialog extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FluxButton(
-                      text: confirmText,
-                      width: 130,
-                      fontSize: 18.0,
-                      backgroundColor: confirmButtonColor,
-                      textColor: confirmTextColor,
-                      edgeInsets: const EdgeInsets.symmetric(
-                        horizontal: 36.0,
-                        vertical: 10.0,
-                      ),
+                    FilledButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                         onResult(true);
                       },
-                    ),
-                    const SizedBox(width: 12.0),
-                    FluxButton(
-                      text: cancelText,
-                      width: 130,
-                      backgroundColor: cancelButtonColor,
-                      textColor: cancelTextColor,
-                      fontSize: 18.0,
-                      edgeInsets: const EdgeInsets.symmetric(
-                        horizontal: 36.0,
-                        vertical: 10.0,
+                      style: context.theme.filledButtonTheme.style?.copyWith(
+                        backgroundColor: confirmButtonColor != null
+                            ? WidgetStateProperty.all(confirmButtonColor)
+                            : WidgetStateProperty.all(
+                                context.theme.scaffoldBackgroundColor),
                       ),
+                      child: SizedBox(
+                        width: 65,
+                        height: 45,
+                        child: Center(
+                          child: Text(
+                            confirmText,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: confirmTextColor ??
+                                  context.colorScheme.onSurface,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    FilledButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                         onResult(false);
                       },
+                      style: context.theme.filledButtonTheme.style?.copyWith(
+                        backgroundColor: cancelButtonColor != null
+                            ? WidgetStateProperty.all(cancelButtonColor)
+                            : WidgetStateProperty.all(
+                                context.theme.scaffoldBackgroundColor),
+                      ),
+                      child: SizedBox(
+                        width: 65,
+                        height: 45,
+                        child: Center(
+                          child: Text(
+                            cancelText,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: cancelTextColor ??
+                                  context.colorScheme.onSurface,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -129,52 +154,36 @@ class FluxConfirmDialog extends StatelessWidget {
   }
 }
 
-class FluxButton extends StatelessWidget {
-  final VoidCallback onPressed;
-  final String text;
-  final Color? backgroundColor;
-  final Color? textColor;
-  final EdgeInsets edgeInsets;
-  final double? fontSize;
-  final double? width;
-
-  const FluxButton({
+class FluxDialog extends StatelessWidget {
+  final Widget child;
+  final double width;
+  const FluxDialog({
     super.key,
-    required this.onPressed,
-    required this.text,
-    this.backgroundColor,
-    this.textColor,
-    this.edgeInsets =
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-    this.fontSize,
-    this.width,
+    required this.child,
+    required this.width,
   });
 
   @override
   Widget build(BuildContext context) {
-    final fontSize = this.fontSize ?? 16.0;
-    final textColor = this.textColor ?? context.colorScheme.onSurface;
-    final backgroundColor =
-        this.backgroundColor ?? context.theme.scaffoldBackgroundColor;
-    return InkWell(
-      borderRadius: BorderRadius.circular(8.0),
-      onTap: onPressed,
-      child: Container(
-        padding: edgeInsets,
-        width: width,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-            fontSize: fontSize,
+    return Dialog(
+      insetPadding: context.width > context.breakpoint(SM)
+          ? const EdgeInsets.symmetric(horizontal: 20.0)
+          : const EdgeInsets.all(0),
+      alignment: context.width > context.breakpoint(SM)
+          ? Alignment.center
+          : Alignment.bottomCenter,
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: width,
+            child: FluxDialogTitlebar(),
           ),
-        ),
+          child,
+        ],
       ),
     );
   }

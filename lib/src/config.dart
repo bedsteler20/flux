@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flux/src/utils.dart';
@@ -19,12 +20,12 @@ class FluxConfig {
   });
 
   static Future<FluxConfig> load() async {
-    SchemaValidator.enabled = true;
+    SchemaValidator.enabled = !kDebugMode;
     final configFile = File("${xdg.configHome.path}/flux/flux.yaml");
 
     if (!configFile.existsSync()) {
-      final assetContent =
-          await rootBundle.loadString('assets/default_settings.yaml');
+      final assetContent = await rootBundle
+          .loadString('packages/flux/lib/assets/default_settings.yaml');
       configFile.createSync(recursive: true);
       configFile.writeAsStringSync(assetContent);
       return FluxConfig.fromJson(loadYaml(assetContent));
@@ -91,4 +92,3 @@ class FluxBreakpointsConfig {
     );
   }
 }
-

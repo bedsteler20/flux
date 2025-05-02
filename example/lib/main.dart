@@ -44,10 +44,39 @@ class MyHomePage extends StatelessWidget {
           onTabChanged: (index) {},
         ),
         following: [
-          FluxTitlebarButton(
-            icon: Icons.more_vert_rounded,
-            onPressed: () {},
-          ),
+          MenuAnchor(
+              builder: (context, controller, child) {
+                return FluxTitlebarButton(
+                  icon: Icons.more_vert_rounded,
+                  onPressed: () {
+                    if (controller.isOpen) {
+                      controller.close();
+                    } else {
+                      controller.open();
+                    }
+                  },
+                );
+              },
+              menuChildren: [
+                MenuItemButton(
+                  child: const Text('About'),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return FluxDialog(
+                          width: 400,
+                          child: SizedBox(
+                            height: 600,
+                            width: 400,
+                            child: const LicensePage(),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                )
+              ]),
         ],
         leading: [
           FluxTitlebarButton(
@@ -70,7 +99,6 @@ class MyHomePage extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: const MyWidget(),
     );
   }
 }
@@ -101,6 +129,10 @@ class _MyWidgetState extends State<MyWidget> {
         message: 'Are you sure you want to proceed?',
         cancelText: 'Cancel',
         confirmText: 'OK',
+        cancelButtonColor: context.theme.colorScheme.error.withAlpha(80),
+        cancelTextColor: context.theme.colorScheme.error,
+        confirmButtonColor: context.theme.colorScheme.primary.withAlpha(80),
+        confirmTextColor: context.theme.colorScheme.primary,
         onResult: (bool result) {
           if (result) {
             // User confirmed
