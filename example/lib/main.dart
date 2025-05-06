@@ -27,12 +27,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: FluxTitlebar(
         title: FluxTabSwitcher(
@@ -44,39 +38,18 @@ class MyHomePage extends StatelessWidget {
           onTabChanged: (index) {},
         ),
         following: [
-          MenuAnchor(
-              builder: (context, controller, child) {
-                return FluxTitlebarButton(
-                  icon: Icons.more_vert_rounded,
-                  onPressed: () {
-                    if (controller.isOpen) {
-                      controller.close();
-                    } else {
-                      controller.open();
-                    }
-                  },
-                );
-              },
-              menuChildren: [
-                MenuItemButton(
-                  child: const Text('About'),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return FluxDialog(
-                          width: 400,
-                          child: SizedBox(
-                            height: 600,
-                            width: 400,
-                            child: const LicensePage(),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                )
-              ]),
+          FluxMenu(
+            items: [
+              FluxMenuItem(
+                title: 'Settings',
+                onClick: () {},
+              ),
+              FluxMenuItem(
+                title: 'About',
+                onClick: () {},
+              ),
+            ],
+          )
         ],
         leading: [
           FluxTitlebarButton(
@@ -99,85 +72,6 @@ class MyHomePage extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
-
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
-  @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(const Duration(seconds: 1), () {
-      // Show the dialog after a delay
-      // showDialog(
-      //   context: context,
-      //   builder: (context) {
-      //     return const MyPallet();
-      //   },
-      // );
-      FluxConfirmDialog.show(
-        context: context,
-        title: 'Confirm',
-        message: 'Are you sure you want to proceed?',
-        cancelText: 'Cancel',
-        confirmText: 'OK',
-        cancelButtonColor: context.theme.colorScheme.error.withAlpha(80),
-        cancelTextColor: context.theme.colorScheme.error,
-        confirmButtonColor: context.theme.colorScheme.primary.withAlpha(80),
-        confirmTextColor: context.theme.colorScheme.primary,
-        onResult: (bool result) {
-          if (result) {
-            // User confirmed
-            print('User confirmed');
-          } else {
-            // User canceled
-            print('User canceled');
-          }
-        },
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox();
-  }
-}
-
-class MyPallet extends StatefulWidget {
-  const MyPallet({super.key});
-
-  @override
-  State<MyPallet> createState() => _MyPalletState();
-}
-
-class _MyPalletState extends State<MyPallet> {
-  final textController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return FluxPallet(
-      title: 'Search',
-      controller: textController,
-      inputBoxLeading: const Icon(Icons.search_rounded),
-      placeholder: 'Search',
-      itemCount: 4,
-      itemBuilder: (context, index) {
-        return FluxPalletItem(
-          title: 'Item $index',
-          onTap: () {
-            // Handle item tap
-            print('Tapped on item $index');
-          },
-        );
-      },
     );
   }
 }

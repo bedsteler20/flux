@@ -105,14 +105,12 @@ class FluxTitlebarButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         highlightColor: Colors.white.withOpacity(0.1),
         splashColor: Colors.transparent,
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              icon,
-              size: 20,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Icon(
+            icon,
+            size: 20,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),
