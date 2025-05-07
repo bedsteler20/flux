@@ -10,12 +10,14 @@ class FluxTitlebar extends StatelessWidget implements PreferredSizeWidget {
     this.leading = const [],
     this.following = const [],
     this.title,
+    this.showDivider = false,
   });
 
   final List<Widget> leading;
   final List<Widget> following;
 
   final Widget? title;
+  final bool showDivider;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,15 @@ class FluxTitlebar extends StatelessWidget implements PreferredSizeWidget {
       },
       child: AppBar(
         titleSpacing: 0,
+        surfaceTintColor: Colors.transparent,
+        bottom: showDivider ? PreferredSize(
+          preferredSize: const Size.fromHeight(2),
+          child: Divider(
+            height: 2,
+            thickness: 2,
+            color: context.theme.colorScheme.onPrimaryContainer,
+          ),
+        ) : null,
         title: SizedBox(
           height: 48,
           child: Padding(

@@ -8,3 +8,5 @@ export 'src/widgets/window_control.dart';
 export 'src/widgets/tab_switcher.dart';
 export 'src/widgets/dialogs.dart';
 export 'src/widgets/menu.dart';
+export 'src/widgets/sidebar.dart';
+export 'src/widgets/scaffold.dart';
