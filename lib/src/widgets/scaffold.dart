@@ -12,6 +12,7 @@ class FluxScaffold extends StatefulWidget {
   final Function(int)? onTabSelected;
   final List<FluxTab>? tabs;
   final bool showTabSwitcher;
+  final bool alwaysShowSidebarButton;
 
   const FluxScaffold({
     super.key,
@@ -25,6 +26,7 @@ class FluxScaffold extends StatefulWidget {
     this.onTabSelected,
     this.tabs,
     this.showTabSwitcher = true,
+    this.alwaysShowSidebarButton = false,
   });
 
   @override
@@ -67,6 +69,14 @@ class _FluxScaffoldState extends State<FluxScaffold>
       isSidebarOpen = false;
       canDrag = false;
     });
+
+    if (!isSmall &&
+        animationController.value != 1 &&
+        !widget.alwaysShowSidebarButton) {
+      animationController.forward();
+    } else if (isSmall && animationController.value != 0) {
+      animationController.reverse();
+    }
   }
 
   void toggleSidebar() {
@@ -140,12 +150,16 @@ class _FluxScaffoldState extends State<FluxScaffold>
             : widget.titlebarTitle,
         showDivider: widget.sideBar != null,
         leading: [
-          FluxTitlebarButton(
-            icon: Icons.menu_rounded,
-            onPressed: toggleSidebar,
-          ),
+          if ((widget.alwaysShowSidebarButton && widget.sideBar != null) ||
+              (widget.sideBar != null && isSmall))
+            FluxTitlebarButton(
+              icon:
+                  isSidebarOpen ? Icons.arrow_back_rounded : Icons.menu_rounded,
+              onPressed: toggleSidebar,
+            ),
           ...widget.titlebarLeading,
         ],
+        following: widget.titlebarFollowing,
       ),
       bottomNavigationBar: shouldShowTabSwitcher
           ? !context.isScreenSize(SM)

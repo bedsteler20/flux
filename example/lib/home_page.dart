@@ -16,7 +16,7 @@ class MyHomePage extends HookWidget {
       onTabSelected: (index) => selectedTab.value = index,
       tabs: const [
         FluxTab(
-          title: 'Hose',
+          title: 'Home',
           icon: Icons.home_rounded,
         ),
         FluxTab(
