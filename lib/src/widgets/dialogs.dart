@@ -29,94 +29,93 @@ class FluxConfirmDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: context.width,
-      height: context.height,
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: SizedBox(
-          width: 340,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 24),
-            child: Column(
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              title,
+              style: context.textTheme.headlineLarge?.copyWith(
+                fontSize: 26.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Text(message),
+            const SizedBox(height: 24.0),
+            Row(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 16.0,
               children: [
-                Text(
-                  title,
-                  style: context.textTheme.headlineLarge?.copyWith(
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.bold,
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    onResult(true);
+                  },
+                  style: context.theme.filledButtonTheme.style?.copyWith(
+                    backgroundColor: confirmButtonColor != null
+                        ? WidgetStateProperty.all(confirmButtonColor)
+                        : WidgetStateProperty.all(
+                            context.theme.scaffoldBackgroundColor),
+                  ),
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      minWidth: 70,
+                      maxHeight: 45,
+                    ),
+                    child: Center(
+                      child: Text(
+                        confirmText,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color:
+                              confirmTextColor ?? context.colorScheme.onSurface,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                Text(message),
-                const SizedBox(height: 24.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    FilledButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        onResult(true);
-                      },
-                      style: context.theme.filledButtonTheme.style?.copyWith(
-                        backgroundColor: confirmButtonColor != null
-                            ? WidgetStateProperty.all(confirmButtonColor)
-                            : WidgetStateProperty.all(
-                                context.theme.scaffoldBackgroundColor),
-                      ),
-                      child: SizedBox(
-                        width: 65,
-                        height: 45,
-                        child: Center(
-                          child: Text(
-                            confirmText,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: confirmTextColor ??
-                                  context.colorScheme.onSurface,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    onResult(false);
+                  },
+                  style: context.theme.filledButtonTheme.style?.copyWith(
+                    backgroundColor: cancelButtonColor != null
+                        ? WidgetStateProperty.all(cancelButtonColor)
+                        : WidgetStateProperty.all(
+                            context.theme.scaffoldBackgroundColor),
+                  ),
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      minWidth: 70,
+                      maxHeight: 45,
+                    ),
+                    child: Center(
+                      child: Text(
+                        cancelText,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color:
+                              cancelTextColor ?? context.colorScheme.onSurface,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    FilledButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        onResult(false);
-                      },
-                      style: context.theme.filledButtonTheme.style?.copyWith(
-                        backgroundColor: cancelButtonColor != null
-                            ? WidgetStateProperty.all(cancelButtonColor)
-                            : WidgetStateProperty.all(
-                                context.theme.scaffoldBackgroundColor),
-                      ),
-                      child: SizedBox(
-                        width: 65,
-                        height: 45,
-                        child: Center(
-                          child: Text(
-                            cancelText,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: cancelTextColor ??
-                                  context.colorScheme.onSurface,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -150,41 +149,6 @@ class FluxConfirmDialog extends StatelessWidget {
           onResult: onResult,
         );
       },
-    );
-  }
-}
-
-class FluxDialog extends StatelessWidget {
-  final Widget child;
-  final double width;
-  const FluxDialog({
-    super.key,
-    required this.child,
-    required this.width,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      insetPadding: context.width > context.breakpoint(SM)
-          ? const EdgeInsets.symmetric(horizontal: 20.0)
-          : const EdgeInsets.all(0),
-      alignment: context.width > context.breakpoint(SM)
-          ? Alignment.center
-          : Alignment.bottomCenter,
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: width,
-            child: FluxDialogTitlebar(),
-          ),
-          child,
-        ],
-      ),
     );
   }
 }

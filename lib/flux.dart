@@ -10,3 +10,5 @@ export 'src/widgets/dialogs.dart';
 export 'src/widgets/menu.dart';
 export 'src/widgets/sidebar.dart';
 export 'src/widgets/scaffold.dart';
+export 'src/widgets/about_dialog.dart';
+export 'src/widgets/tiles.dart';

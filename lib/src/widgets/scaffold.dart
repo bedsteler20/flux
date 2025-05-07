@@ -153,8 +153,7 @@ class _FluxScaffoldState extends State<FluxScaffold>
           if ((widget.alwaysShowSidebarButton && widget.sideBar != null) ||
               (widget.sideBar != null && isSmall))
             FluxTitlebarButton(
-              icon:
-                  isSidebarOpen ? Icons.arrow_back_rounded : Icons.menu_rounded,
+              icon: Icons.menu_rounded,
               onPressed: toggleSidebar,
             ),
           ...widget.titlebarLeading,

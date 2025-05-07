@@ -1,4 +1,5 @@
 import 'package:example/button_view_page.dart';
+import 'package:example/dialogs_page.dart';
 import 'package:example/list_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -58,11 +59,18 @@ class MyHomePage extends HookWidget {
             selected: selectedView.value == 1,
             onClick: () => selectedView.value = 1,
           ),
+          FluxSidebarItem(
+            title: "Dialogs",
+            icon: Icons.info,
+            selected: selectedView.value == 2,
+            onClick: () => selectedView.value = 2,
+          ),
         ],
       ),
       child: switch (selectedView.value) {
         0 => const ListViewPage(),
         1 => const ButtonViewPage(),
+        2 => const DialogsPage(),
         _ => const Center(
             child: Text("Unknown View"),
           ),
