@@ -30,14 +30,16 @@ class FluxTitlebar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         titleSpacing: 0,
         surfaceTintColor: Colors.transparent,
-        bottom: showDivider ? PreferredSize(
-          preferredSize: const Size.fromHeight(2),
-          child: Divider(
-            height: 2,
-            thickness: 2,
-            color: context.theme.colorScheme.onPrimaryContainer,
-          ),
-        ) : null,
+        bottom: showDivider
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(2),
+                child: Divider(
+                  height: 2,
+                  thickness: 2,
+                  color: context.theme.colorScheme.onPrimaryContainer,
+                ),
+              )
+            : null,
         title: SizedBox(
           height: 48,
           child: Padding(
@@ -141,6 +143,7 @@ class FluxDialogTitlebar extends StatelessWidget
     this.title,
   });
 
+  final bool showBackButton = true;
   final List<Widget> leading;
   final List<Widget> following;
 
@@ -156,8 +159,9 @@ class FluxDialogTitlebar extends StatelessWidget
         Flux.yaruWindow.maximizeOrRestore();
       },
       child: AppBar(
+        automaticallyImplyLeading: false,
         titleSpacing: 0,
-        leading: const SizedBox(),
+        leading: null,
         title: SizedBox(
           height: 48,
           child: Padding(

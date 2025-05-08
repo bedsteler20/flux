@@ -28,19 +28,18 @@ class DialogsPage extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return const FluxAboutDialog(
-                    title: 'Flux',
-                    message: 'Flux is a Flutter UI library.',
                     icon: FlutterLogo(size: 128),
-                    children: [
-                      FluxTileGroup(
-                        children: [
-                          FluxTile(
-                            title: 'Website',
-                            following: Icon(Icons.open_in_new_rounded),
-                          ),
-                        ],
-                      )
-                    ],
+                    info: FluxAboutInfo(
+                      appName: 'Flux Example',
+                      appDescription: 'An example application using Flux.',
+                      links: [
+                        ("GitHub", "https://github.com/bedsteler20/flux")
+                      ],
+                      credits: [
+                        ("Programers", ["Bedsteler20"]),
+                        ("Designers", ["Bedsteler20"]),
+                      ],
+                    ),
                   );
                 },
               );

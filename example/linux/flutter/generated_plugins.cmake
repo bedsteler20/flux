@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   handy_window
   screen_retriever_linux
+  url_launcher_linux
   window_manager
   yaru_window_linux
 )

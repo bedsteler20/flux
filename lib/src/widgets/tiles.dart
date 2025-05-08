@@ -19,7 +19,7 @@ class FluxTile extends StatelessWidget {
       visualDensity: VisualDensity.comfortable,
       title: Text(title),
       trailing: following,
-      onTap: () => onClick?.call(),
+      onTap: onClick,
     );
   }
 }
