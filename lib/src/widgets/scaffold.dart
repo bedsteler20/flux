@@ -30,103 +30,122 @@ class FluxScaffold extends StatefulWidget {
   });
 
   @override
-  State<FluxScaffold> createState() => _FluxScaffoldState();
+  State<FluxScaffold> createState() => FluxScaffoldState();
+
+  static FluxScaffoldState of(BuildContext context) {
+    final state = context.findAncestorStateOfType<FluxScaffoldState>();
+    if (state == null) {
+      throw Exception('FluxScaffold not found in context');
+    }
+    return state;
+  }
+
+  static FluxScaffoldState? maybeOf(BuildContext context) {
+    return context.findAncestorStateOfType<FluxScaffoldState>();
+  }
 }
 
-class _FluxScaffoldState extends State<FluxScaffold>
+class FluxScaffoldState extends State<FluxScaffold>
     with SingleTickerProviderStateMixin {
-  bool isSmall = false;
-  bool isSidebarOpen = false;
-  bool canDrag = false;
-  double screenWidth = 0.0;
+  bool _isSmall = false;
+  bool _isSidebarOpen = false;
+  bool _canDrag = false;
+  double _screenWidth = 0.0;
 
-  late final AnimationController animationController = AnimationController(
+  late final AnimationController _animationController = AnimationController(
     duration: const Duration(milliseconds: 100),
     vsync: this,
   );
 
-  late final Animation animation = CurvedAnimation(
-    parent: animationController,
+  late final Animation _animation = CurvedAnimation(
+    parent: _animationController,
     curve: Curves.easeInOutQuad,
   );
 
   @override
   void dispose() {
     super.dispose();
-    animationController.dispose();
+    _animationController.dispose();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final mediaQuery = MediaQuery.of(context);
-    if (screenWidth == mediaQuery.size.width) {
+    if (_screenWidth == mediaQuery.size.width) {
       return;
     }
     setState(() {
-      screenWidth = mediaQuery.size.width;
-      isSmall = mediaQuery.size.width < widget.mobileThreshold;
-      isSidebarOpen = false;
-      canDrag = false;
+      _screenWidth = mediaQuery.size.width;
+      _isSmall = mediaQuery.size.width < widget.mobileThreshold;
+      _isSidebarOpen = false;
+      _canDrag = false;
     });
 
-    if (!isSmall &&
-        animationController.value != 1 &&
+    if (!_isSmall &&
+        _animationController.value != 1 &&
         !widget.alwaysShowSidebarButton) {
-      animationController.forward();
-    } else if (isSmall && animationController.value != 0) {
-      animationController.reverse();
+      _animationController.forward();
+    } else if (_isSmall && _animationController.value != 0) {
+      _animationController.reverse();
     }
   }
 
   void toggleSidebar() {
-    if (isSidebarOpen) {
-      animationController.reverse();
+    if (_isSidebarOpen) {
+      _animationController.reverse();
     } else {
-      animationController.forward();
+      _animationController.forward();
     }
-    setState(() => isSidebarOpen = !isSidebarOpen);
+    setState(() => _isSidebarOpen = !_isSidebarOpen);
   }
 
-  void onDragStart(DragStartDetails details) {
-    final closed = animationController.isDismissed;
-    final open = animationController.isCompleted;
+  void closeSidebar() {
+    if (_isSidebarOpen && (_isSmall || !widget.alwaysShowSidebarButton)) {
+      _animationController.reverse();
+      setState(() => _isSidebarOpen = false);
+    }
+  }
+
+  void _onDragStart(DragStartDetails details) {
+    final closed = _animationController.isDismissed;
+    final open = _animationController.isCompleted;
     setState(() {
-      canDrag = (closed && details.localPosition.dx < 60) || open;
+      _canDrag = (closed && details.localPosition.dx < 60) || open;
     });
   }
 
-  void onDragUpdate(DragUpdateDetails details) {
-    if (!canDrag) return;
-    animationController.value +=
+  void _onDragUpdate(DragUpdateDetails details) {
+    if (!_canDrag) return;
+    _animationController.value +=
         (details.primaryDelta ?? 0.0) / widget.sideBar!.width;
   }
 
-  void dragCloseDrawer(DragUpdateDetails details) {
+  void _dragCloseDrawer(DragUpdateDetails details) {
     final delta = details.primaryDelta ?? 0.0;
     if (delta < 0) {
       setState(() {
-        isSidebarOpen = false;
+        _isSidebarOpen = false;
       });
-      animationController.reverse();
+      _animationController.reverse();
     }
   }
 
-  void onDragEnd(DragEndDetails details) async {
+  void _onDragEnd(DragEndDetails details) async {
     const minFlingVelocity = 365;
     if (details.velocity.pixelsPerSecond.dx.abs() >= minFlingVelocity) {
       final visualVelocity =
           details.velocity.pixelsPerSecond.dx / widget.sideBar!.width;
 
-      await animationController.fling(velocity: visualVelocity);
-      setState(() => isSidebarOpen = animationController.isCompleted);
+      await _animationController.fling(velocity: visualVelocity);
+      setState(() => _isSidebarOpen = _animationController.isCompleted);
     } else {
-      if (animationController.value < 0.5) {
-        animationController.reverse();
-        setState(() => isSidebarOpen = false);
+      if (_animationController.value < 0.5) {
+        _animationController.reverse();
+        setState(() => _isSidebarOpen = false);
       } else {
-        animationController.forward();
-        setState(() => isSidebarOpen = true);
+        _animationController.forward();
+        setState(() => _isSidebarOpen = true);
       }
     }
   }
@@ -151,7 +170,7 @@ class _FluxScaffoldState extends State<FluxScaffold>
         showDivider: widget.sideBar != null,
         leading: [
           if ((widget.alwaysShowSidebarButton && widget.sideBar != null) ||
-              (widget.sideBar != null && isSmall))
+              (widget.sideBar != null && _isSmall))
             FluxTitlebarButton(
               icon: Icons.menu_rounded,
               onPressed: toggleSidebar,
@@ -175,7 +194,7 @@ class _FluxScaffoldState extends State<FluxScaffold>
               : null
           : null,
       body: AnimatedBuilder(
-        animation: animation,
+        animation: _animation,
         builder: (context, _) {
           if (widget.sideBar == null) {
             return Row(
@@ -190,29 +209,29 @@ class _FluxScaffoldState extends State<FluxScaffold>
             );
           }
 
-          if (isSmall) {
+          if (_isSmall) {
             return Stack(
               children: [
                 GestureDetector(
-                  onHorizontalDragStart: onDragStart,
-                  onHorizontalDragUpdate: onDragUpdate,
-                  onHorizontalDragEnd: onDragEnd,
+                  onHorizontalDragStart: _onDragStart,
+                  onHorizontalDragUpdate: _onDragUpdate,
+                  onHorizontalDragEnd: _onDragEnd,
                 ),
                 widget.child,
-                if (animation.value > 0)
+                if (_animation.value > 0)
                   Container(
-                    color:
-                        Colors.black.withAlpha((150 * animation.value).toInt()),
+                    color: Colors.black
+                        .withAlpha((150 * _animation.value).toInt()),
                   ),
-                if (animation.value == 1)
+                if (_animation.value == 1)
                   GestureDetector(
                     onTap: toggleSidebar,
-                    onHorizontalDragUpdate: dragCloseDrawer,
+                    onHorizontalDragUpdate: _dragCloseDrawer,
                   ),
                 ClipRRect(
                   child: SizedOverflowBox(
                     size: Size(
-                      (widget.sideBar?.width ?? 1.0) * animation.value,
+                      (widget.sideBar?.width ?? 1.0) * _animation.value,
                       double.infinity,
                     ),
                     child: widget.sideBar,
@@ -228,7 +247,7 @@ class _FluxScaffoldState extends State<FluxScaffold>
                 ClipRect(
                   child: SizedOverflowBox(
                     size: Size(
-                      (widget.sideBar?.width ?? 1.0) * animation.value,
+                      (widget.sideBar?.width ?? 1.0) * _animation.value,
                       double.infinity,
                     ),
                     child: widget.sideBar,

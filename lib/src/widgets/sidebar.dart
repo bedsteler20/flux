@@ -1,29 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flux/flux.dart';
 
-class FluxSidebarView extends StatelessWidget {
-  final Widget sidebar;
-  final Widget child;
-
-  const FluxSidebarView({
-    super.key,
-    required this.sidebar,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        sidebar,
-        Expanded(
-          child: child,
-        ),
-      ],
-    );
-  }
-}
-
 class FluxSidebar extends StatelessWidget {
   final double width;
   final List<Widget> children;
@@ -87,6 +64,7 @@ class FluxSidebarItem extends StatelessWidget {
       ),
       onPressed: () {
         onClick?.call();
+        FluxScaffold.maybeOf(context)?.closeSidebar();
       },
       child: Container(
         padding: const EdgeInsets.all(8.0),

@@ -7,6 +7,11 @@ class Flux {
   @internal
   static late final YaruWindowInstance yaruWindow;
 
+  @internal
+  static late final bool showMinimizeButton;
+  @internal
+  static late final bool showMaximizeButton;
+
   static late final FluxConfig config;
 
   static Future<void> ensureInitialized() async {
