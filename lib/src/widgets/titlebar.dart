@@ -29,7 +29,6 @@ class FluxTitlebar extends StatelessWidget implements PreferredSizeWidget {
       },
       child: AppBar(
         titleSpacing: 0,
-        surfaceTintColor: Colors.transparent,
         bottom: showDivider
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(2),

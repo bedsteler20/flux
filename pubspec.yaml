@@ -10,11 +10,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_context_menu: ^0.2.0
-  gsettings: ^0.2.8
   handy_window: ^0.4.0
   json_theme: ^8.0.0+2
   meta: ^1.15.0
   url_launcher: ^6.3.1
+  xdg_desktop_portal: ^0.1.13
   xdg_directories: ^1.1.0
   yaml: ^3.1.2
   yaru_window: ^0.2.1+1

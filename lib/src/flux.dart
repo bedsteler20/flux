@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gsettings/gsettings.dart';
 import 'package:meta/meta.dart';
+import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 import 'package:yaru_window/yaru_window.dart';
 
 class Flux {
@@ -16,9 +16,17 @@ class Flux {
     WidgetsFlutterBinding.ensureInitialized();
     yaruWindow = await YaruWindow.ensureInitialized();
     await yaruWindow.hideTitle();
-    final gsettings = GSettings("org.gnome.desktop.wm.preferences");
-    final buttonLayout = (await gsettings.get("button-layout")).asString();
-    showMinimizeButton = buttonLayout.contains("minimize");
-    showMaximizeButton = buttonLayout.contains("maximize");
+    try {
+      final client = XdgDesktopPortalClient();
+      final buttonLayout = (await client.settings
+              .read("org.gnome.desktop.wm.preferences", "button-layout"))
+          .asVariant()
+          .asString();
+      showMinimizeButton = buttonLayout.contains("minimize");
+      showMaximizeButton = buttonLayout.contains("maximize");
+    } catch (e) {
+      showMinimizeButton = true;
+      showMaximizeButton = true;
+    }
   }
 }
