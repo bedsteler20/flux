@@ -1,7 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flux/flux.dart';
 import 'package:meta/meta.dart';
 
 class FluxBreakpoint {
@@ -10,16 +9,14 @@ class FluxBreakpoint {
   @internal
   const FluxBreakpoint(this.value);
 }
-late final FluxBreakpoint XS;
-late final FluxBreakpoint SM;
-late final FluxBreakpoint MD;
-late final FluxBreakpoint LG;
-late final FluxBreakpoint XL;
-late final FluxBreakpoint XXL;
+const FluxBreakpoint XS = FluxBreakpoint(300);
+const FluxBreakpoint SM = FluxBreakpoint(576);
+const FluxBreakpoint MD = FluxBreakpoint(768);
+const FluxBreakpoint LG = FluxBreakpoint(992);
+const FluxBreakpoint XL = FluxBreakpoint(1200);
+const FluxBreakpoint XXL = FluxBreakpoint(1300);
 
 extension ContextExtension on BuildContext {
-  FluxConfig get fluxConfig => Flux.config;
-
   ThemeData get theme => Theme.of(this);
   TextTheme get textTheme => theme.textTheme;
   ColorScheme get colorScheme => theme.colorScheme;

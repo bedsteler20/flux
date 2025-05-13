@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux/flux.dart';
+import 'package:gsettings/gsettings.dart';
 import 'package:meta/meta.dart';
 import 'package:yaru_window/yaru_window.dart';
 
@@ -12,28 +12,13 @@ class Flux {
   @internal
   static late final bool showMaximizeButton;
 
-  static late final FluxConfig config;
-
   static Future<void> ensureInitialized() async {
     WidgetsFlutterBinding.ensureInitialized();
-    config = await FluxConfig.load();
     yaruWindow = await YaruWindow.ensureInitialized();
-    _setupBreakpoints();
-    await _setupWindow();
-  }
-
-  static Future<void> _setupWindow() async {
-    if (config.properties.useClientSideDecorations) {
-      await yaruWindow.hideTitle();
-    }
-  }
-
-  static void _setupBreakpoints() {
-    XS = FluxBreakpoint(config.breakpoints.xs.toDouble());
-    SM = FluxBreakpoint(config.breakpoints.sm.toDouble());
-    MD = FluxBreakpoint(config.breakpoints.md.toDouble());
-    LG = FluxBreakpoint(config.breakpoints.lg.toDouble());
-    XL = FluxBreakpoint(config.breakpoints.xl.toDouble());
-    XXL = FluxBreakpoint(config.breakpoints.xxl.toDouble());
+    await yaruWindow.hideTitle();
+    final gsettings = GSettings("org.gnome.desktop.wm.preferences");
+    final buttonLayout = (await gsettings.get("button-layout")).asString();
+    showMinimizeButton = buttonLayout.contains("minimize");
+    showMaximizeButton = buttonLayout.contains("maximize");
   }
 }

@@ -1,9 +1,6 @@
 name: flux
 description: "A new Flutter package project."
 version: 0.0.1
-flutter:
-  assets:
-    - lib/assets/
 environment:
   sdk: ^3.5.4
   flutter: ">=1.17.0"

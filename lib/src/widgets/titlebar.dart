@@ -70,9 +70,11 @@ class FluxTitlebar extends StatelessWidget implements PreferredSizeWidget {
                       children: [
                         ...following,
                         FluxWindowControls(
-                          controls: const [
-                            FluxWindowControlType.minimize,
-                            FluxWindowControlType.maximize,
+                          controls: [
+                            if (Flux.showMinimizeButton)
+                              FluxWindowControlType.minimize,
+                            if (Flux.showMaximizeButton)
+                              FluxWindowControlType.maximize,
                             FluxWindowControlType.close,
                           ],
                           onClose: () => Flux.yaruWindow.close(),

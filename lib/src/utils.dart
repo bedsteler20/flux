@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:yaru_window/yaru_window.dart';
@@ -14,10 +12,6 @@ extension YaruWindowExt on YaruWindowInstance {
       await maximize();
     }
   }
-}
-
-Future<void> zenityError(String title, String message) async {
-  await Process.run('zenity', ['--error', '--title', title, '--text', message]);
 }
 
 class CallbackNavigationObserver extends NavigatorObserver {
