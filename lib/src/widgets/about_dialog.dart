@@ -9,15 +9,15 @@ class FluxAboutInfo {
   final String? appName;
   final String? appVersion;
   final String? appDescription;
-  final List<(String name, List<String> people)> credits;
-  final List<(String title, String url)> links;
+  final Map<String, List<String>> credits;
+  final Map<String, String> links;
 
   const FluxAboutInfo({
     this.appName,
     this.appVersion,
     this.appDescription,
-    this.credits = const [],
-    this.links = const [],
+    this.credits = const {},
+    this.links = const {},
   });
 }
 
@@ -147,11 +147,11 @@ class _MainPage extends StatelessWidget {
               children: [
                 if (info.links.isNotEmpty)
                   FluxTileGroup(children: [
-                    for (final (name, url) in info.links)
+                    for (final entry in info.links.entries)
                       FluxTile(
-                        title: name,
+                        title: entry.key,
                         following: const Icon(Icons.open_in_new_rounded),
-                        onClick: () => launchUrl(Uri.parse(url)),
+                        onClick: () => launchUrl(Uri.parse(entry.value)),
                       ),
                   ]),
                 if (info.links.isNotEmpty) const SizedBox(height: 16),
@@ -203,9 +203,9 @@ class _CreditsPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (final (title, people) in info.credits) ...[
+            for (final entry in info.credits.entries) ...[
               Text(
-                title,
+                entry.key,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -213,7 +213,7 @@ class _CreditsPage extends StatelessWidget {
               ),
               FluxTileGroup(
                 children: [
-                  for (final person in people)
+                  for (final person in entry.value)
                     FluxTile(
                       title: person,
                     ),
