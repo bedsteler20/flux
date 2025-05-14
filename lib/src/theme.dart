@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-ThemeData generateFluxTheme() {
+ThemeData generateFluxTheme({
+  String? fontFamily,
+}) {
   const pink = Color(0xFFcba6f7);
   const text = Color(0xFFcdd6f4);
   const red = Color(0xFFf38ba8);
@@ -17,6 +19,7 @@ ThemeData generateFluxTheme() {
 
   return ThemeData(
     useMaterial3: true,
+    fontFamily: fontFamily,
     scaffoldBackgroundColor: base,
     colorScheme: const ColorScheme(
       brightness: Brightness.dark,
